@@ -28,8 +28,7 @@ function gulpRequireTasks (options) {
   // Recursively visiting all modules in the specified directory
   // and registering Gulp tasks.
   requireDirectory(module, options.path, {
-    visit: moduleVisitor
-  }, {
+    visit: moduleVisitor,
     include: options.include,
     exclude: options.exclude
   });
