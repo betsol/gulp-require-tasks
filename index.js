@@ -4,6 +4,8 @@ module.exports = gulpRequireTasks;
 
 const DEFAULT_OPTIONS = {
   path: process.cwd() + '/gulp-tasks',
+  include: null,
+  exclude: null,
   separator: ':',
   arguments: [],
   passGulp: true,
@@ -26,6 +28,9 @@ function gulpRequireTasks (options) {
   // and registering Gulp tasks.
   requireDirectory(module, options.path, {
     visit: moduleVisitor
+  }, {
+    include: options.include,
+    exclude: options.exclude
   });
 
   /**
