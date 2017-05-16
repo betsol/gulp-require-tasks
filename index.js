@@ -4,6 +4,8 @@ module.exports = gulpRequireTasks;
 
 const DEFAULT_OPTIONS = {
   path: process.cwd() + '/gulp-tasks',
+  include: null,
+  exclude: null,
   separator: ':',
   arguments: [],
   passGulp: true,
@@ -20,11 +22,14 @@ function gulpRequireTasks (options) {
   options = Object.assign({}, DEFAULT_OPTIONS, options);
 
   const gulp = options.gulp || require('gulp');
+  const gulp4 = !!gulp.series;
 
   // Recursively visiting all modules in the specified directory
   // and registering Gulp tasks.
   requireDirectory(module, options.path, {
-    visit: moduleVisitor
+    visit: moduleVisitor,
+    include: options.include,
+    exclude: options.exclude
   });
 
   /**
@@ -34,14 +39,28 @@ function gulpRequireTasks (options) {
    * @param {string} modulePath
    */
   function moduleVisitor (module, modulePath) {
+    var args = [taskNameFromPath(modulePath)];
+    var module = normalizeModule(module, gulp4);
+    var batchName;
 
-    module = normalizeModule(module);
+    if (gulp4) {
+      if (module.dep) {
+        // Can get dep: [] which is equal to dep: { series: [] }
+        // or dep: { parallel: [] }
+        if (_.isPlainObject(module.dep)) {
+          batchName = module.dep.parallel ? 'parallel' : 'series';
+          args.push(gulp[batchName].apply(gulp, module.dep[batchName]));
+        } else {
+          args.push(gulp.series.apply(gulp, module.dep));
+        }
+      } else {
+        args.push(module.nativeTask || taskFunction);
+      }
+    } else {
+      args.push(module.dep, module.nativeTask || taskFunction);
+    }
 
-    gulp.task(
-      taskNameFromPath(modulePath),
-      module.dep,
-      module.nativeTask || taskFunction
-    );
+    gulp.task.apply(gulp, args);
 
     /**
      * Wrapper around user task function.
@@ -98,9 +117,11 @@ function gulpRequireTasks (options) {
  *
  * @returns {object}
  */
-function normalizeModule (module) {
+function normalizeModule (module, gulp4) {
   if ('function' === typeof module) {
-    return {
+    return gulp4 ? {
+      fn: module
+    } : {
       fn: module,
       dep: []
     };

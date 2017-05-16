@@ -1,5 +1,10 @@
 # gulp-require-tasks changelog
 
+## Version 1.1.0
+(18 Aug 2016)
+
+- *include* and *exclude* options added
+
 ## Version 1.0.3
 (16 Mar 2016)
 

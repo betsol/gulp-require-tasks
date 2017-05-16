@@ -41,13 +41,13 @@ const gulpRequireTasks = require('gulp-require-tasks');
 
 // Invoke the module with options.
 gulpRequireTasks({
-  
+
   // Specify path to your tasks directory.
   path: process.cwd() + '/gulp-tasks' // This is default!
-  
+
   // Additionally pass any options to it from the table below.
   // ...
-  
+
 });
 
 // Or, use minimal invokation possible with all options set to defaults.
@@ -78,6 +78,8 @@ require('gulp-require-tasks')({
 | Property     | Default Value     | Description
 | ------------ | ----------------- | --------------------------------------------------------
 | path         | `'./gulp-tasks'`  | Path to directory from which to load your tasks modules
+| include      | `null`            | Whitelisting (either via RegExp or function) allows you to specify that only certain files be loaded.
+| exclude      | `null`            | Blacklisting (either via RegExp or function) allows you to specify that all but certain files should be loaded.
 | separator    | `:`               | Task name separator, your tasks would be named, e.g. `foo:bar:baz` for `./tasks/foo/bar/baz.js`
 | arguments    | `[]`              | Additional arguments to pass to your task function
 | passGulp     | `true`            | Whether to pass Gulp instance as a first argument to your task function
