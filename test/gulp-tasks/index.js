@@ -1,5 +1,5 @@
 
 module.exports = {
-  deps: ['styles:clean', 'styles:build', 'scripts:build'],
+  deps: ['styles:clean', 'scripts:build'],
   fn: (gulp, callback) => callback()
 };

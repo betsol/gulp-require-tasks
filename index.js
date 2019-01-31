@@ -2,6 +2,8 @@
 module.exports = gulpRequireTasks;
 
 
+const plugin = require('./package.json');
+const PluginError = require('plugin-error');
 const path = require('path');
 const requireDirectory = require('require-directory');
 const FwdRef = require('undertaker-forward-reference');
@@ -53,6 +55,15 @@ function gulpRequireTasks (options) {
         'Usage of "module.dep" property is deprecated and will be removed in next major version. ' +
         'Use "deps" instead.'
       );
+    }
+
+    if (module.nativeTask && gulp_version === 4) {
+      const msg = `"${taskName}" can't be processed: Usage of "module.nativeTask" property is deprecated because of synchronous tasks are no longer supported in gulp v4. Use a task with explicit callback instead.`;
+
+      module.nativeTask = function(cb) {
+        cb(new PluginError(plugin.name, msg));
+        return;
+      };
     }
 
     const taskDeps = module.deps || module.dep || [];
