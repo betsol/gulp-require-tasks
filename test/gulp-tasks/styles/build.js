@@ -1,5 +1,6 @@
 
-module.exports = function (gulp, callback) {
-  console.log('Building styles...');
-  callback();
+module.exports = {
+  nativeTask: function () {
+    console.log('Building styles...');
+  }
 };
