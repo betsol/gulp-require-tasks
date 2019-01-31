@@ -20,6 +20,7 @@ function gulpRequireTasks (options) {
   options = Object.assign({}, DEFAULT_OPTIONS, options);
 
   const gulp = options.gulp || require('gulp');
+  const gulp_version = gulp.series ? 4 : 3;
 
   // Recursively visiting all modules in the specified directory
   // and registering Gulp tasks.
@@ -47,12 +48,36 @@ function gulpRequireTasks (options) {
       );
     }
 
-    gulp.task(
-      taskName,
-      // @todo: deprecate `module.dep` in 2.0.0
-      module.deps || module.dep || [],
-      module.nativeTask || taskFunction
-    );
+    const taskDeps = module.deps || module.dep || [];
+    const taskFn = module.nativeTask || taskFunction;
+
+    if (gulp_version === 4) {
+      if (taskDeps.length) {
+        if (undefined === module.fn) {
+          gulp.task(
+            taskName,
+            gulp.parallel(...taskDeps)
+          );
+        } else {
+          gulp.task(
+            taskName,
+            gulp.series(gulp.parallel(...taskDeps), function(callback) { taskFn(callback) })
+          );
+        }
+      } else {
+        gulp.task(
+          taskName,
+          taskFn
+        );
+      }
+    } else {
+      gulp.task(
+        taskName,
+        // @todo: deprecate `module.dep` in 2.0.0
+        taskDeps,
+        taskFn
+      );
+    }
 
 
     /**
