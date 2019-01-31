@@ -27,7 +27,7 @@
     "node": ">=4.8"
   },
   "dependencies": {
-    "gulp": "^3.9.1",
+    "gulp": "^4.0.0",
     "require-directory": "^2.1.1"
   }
 }
