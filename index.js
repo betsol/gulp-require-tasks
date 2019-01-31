@@ -135,12 +135,19 @@ function gulpRequireTasks (options) {
  * @returns {object}
  */
 function normalizeModule (module) {
+  if (undefined !== module.default) {
+    return {
+      fn: module.default,
+      deps: []
+    };
+  }
+
   if ('function' === typeof module) {
     return {
       fn: module,
       deps: []
     };
-  } else {
-    return module;
   }
+
+  return module;
 }
