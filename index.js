@@ -4,6 +4,7 @@ module.exports = gulpRequireTasks;
 
 const path = require('path');
 const requireDirectory = require('require-directory');
+const FwdRef = require('undertaker-forward-reference');
 
 
 const DEFAULT_OPTIONS = {
@@ -21,6 +22,12 @@ function gulpRequireTasks (options) {
 
   const gulp = options.gulp || require('gulp');
   const gulp_version = gulp.series ? 4 : 3;
+
+  // Allow to use forward referenced tasks into `.series` and `.parallel`.
+  // See: https://github.com/gulpjs/undertaker-forward-reference#why
+  if (gulp_version === 4) {
+    gulp.registry(new FwdRef());
+  }
 
   // Recursively visiting all modules in the specified directory
   // and registering Gulp tasks.
