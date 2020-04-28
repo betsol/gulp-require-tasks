@@ -2,6 +2,13 @@
 
 Below is the list of most important changes and versions.
 
+## Version 1.3.0
+(28 April 2020)
+
+- Added deprecation notice
+- Updated README
+
+
 ## Version 1.2.0
 (30 July 2017)
 

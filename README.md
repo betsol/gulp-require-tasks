@@ -3,8 +3,15 @@
 [![npm version](https://badge.fury.io/js/gulp-require-tasks.svg)](http://badge.fury.io/js/gulp-require-tasks)
 
 
-This convenient module allows you to load *Gulp* tasks from the
-multiple individual files and directory hierarchy.
+This convenient extension for **Gulp 3** allows you to load tasks from
+multiple individual files in a directory hierarchy.
+
+
+# Deprecation Notice
+
+> This extension is deprecated and archived! Use [Gulp 4][gulp-4] with [Gulp Hub][gulp-hub] instead.
+>
+> PRs are not being accepted. Consider creating a fork if you really want it.
 
 
 ## Features
@@ -19,9 +26,7 @@ multiple individual files and directory hierarchy.
 
 ## Installation
 
-### Install library with *yarn*
-
-`yarn add -D gulp-require-tasks`
+### `npm i -D gulp gulp-require-tasks`
 
 
 ## Usage
@@ -41,13 +46,13 @@ const gulpRequireTasks = require('gulp-require-tasks');
 
 // Invoke the module with options.
 gulpRequireTasks({
-  
+
   // Specify path to your tasks directory.
   path: process.cwd() + '/gulp-tasks' // This is default!
-  
+
   // Additionally pass any options to it from the table below.
   // ...
-  
+
 });
 
 // Or, use minimal invocation possible with all options set to defaults.
@@ -178,7 +183,7 @@ And then use it in your task module:
 
 ```js
 // gulp/tasks/styles/build.js
-module.exports = gulp => 
+module.exports = gulp =>
   gulp.src(global.SOURCES_BASE_PATH + '/styles/*.scss')
     .pipe(compass())
     .pipe(gulp.dest('…'))
@@ -250,7 +255,7 @@ Thank you!
 
 The MIT License (MIT)
 
-Copyright (c) 2016-2017 Slava Fomin II, BETTER SOLUTIONS
+Copyright (c) 2016-2020 Slava Fomin II
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -277,3 +282,5 @@ THE SOFTWARE.
   [gulp]:          http://gulpjs.com/
   [repo-gh]:       https://github.com/betsol/gulp-require-tasks
   [gulp-sequence]: https://github.com/teambition/gulp-sequence
+  [gulp-4]:        https://gulpjs.com/
+  [gulp-hub]:      https://github.com/frankwallis/gulp-hub/tree/registry-init
